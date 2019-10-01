@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "820447129786",
+    "firebase_url": "https://movie-tracker-5e465.firebaseio.com",
+    "project_id": "movie-tracker-5e465",
+    "storage_bucket": "movie-tracker-5e465.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820447129786:android:e38a8c5b5100f8f52e5283",
+        "android_client_info": {
+          "package_name": "dev.zettai.telfaza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820447129786-0qmke45l8tk8d59dalbqliqglghkl8k6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.zettai.telfaza",
+            "certificate_hash": "d036a2800768bf10dffdccda8ba7363e09aa482b"
+          }
+        },
+        {
+          "client_id": "820447129786-qoa58e9505tfka9mfoh7l1qrs6bdpf3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPi9DebN6jNAOVAh1Fw0JAmUucQTqbdyw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820447129786-qoa58e9505tfka9mfoh7l1qrs6bdpf3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
