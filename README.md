@@ -1,16 +1,3 @@
-# telfaza
+# Telfaza
 
-A movie tracking app, made using Flutter.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Telfaza is a mobile app that helps you keep track of movies you watched or you're planning to watch. It uses TMDB api to get movie data, and Firebase for authentication/database. It allows you to search movies, filter the results, mark movies as favorite... etc. It works for both Android and iOS
