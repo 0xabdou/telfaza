@@ -17,26 +17,67 @@ class FirestoreDBService extends DBService {
 
   Future<Stream<QuerySnapshot>> get outFavorites async {
     final user = await _getUserOrThrow();
-    return _firestore.collection('favorites').orderBy('added',descending: true).where('user', isEqualTo: user.uid).snapshots();
+    return _firestore
+        .collection('favorites')
+        .orderBy('added', descending: true)
+        .where('user', isEqualTo: user.uid)
+        .snapshots();
+  }
+
+  Future<Stream<QuerySnapshot>> get outLaters async {
+    final user = await _getUserOrThrow();
+    return _firestore
+        .collection('laters')
+        .orderBy('added', descending: true)
+        .where('user', isEqualTo: user.uid)
+        .snapshots();
   }
 
   Future<void> addFavorite(int id) async {
     final user = await _getUserOrThrow();
-    final snap = await _firestore.collection('favorites')
+    final snap = await _firestore
+        .collection('favorites')
         .where('movie', isEqualTo: id)
         .where('user', isEqualTo: user.uid)
         .getDocuments();
-    if (snap.documents.length > 0)
-      return;
-    await _firestore.collection('favorites').add({'user': user.uid, 'movie': id, 'added': FieldValue.serverTimestamp()});
+    if (snap.documents.length > 0) return;
+    await _firestore.collection('favorites').add(
+        {'user': user.uid, 'movie': id, 'added': FieldValue.serverTimestamp()});
   }
-  
+
   Future<void> removeFavorite(int id) async {
     final user = await _getUserOrThrow();
-    _firestore.collection('favorites').where('movie', isEqualTo: id).where('user', isEqualTo: user.uid)
-    .getDocuments().then((snapshot) {
-      for (var doc in snapshot.documents)
-        doc.reference.delete();
+    _firestore
+        .collection('favorites')
+        .where('movie', isEqualTo: id)
+        .where('user', isEqualTo: user.uid)
+        .getDocuments()
+        .then((snapshot) {
+      for (var doc in snapshot.documents) doc.reference.delete();
+    });
+  }
+
+  Future<void> addLater(int id) async {
+    final user = await _getUserOrThrow();
+    final snap = await _firestore
+        .collection('laters')
+        .where('movie', isEqualTo: id)
+        .where('user', isEqualTo: user.uid)
+        .getDocuments();
+    if (snap.documents.length > 0) return;
+    await _firestore.collection('laters').add(
+        {'user': user.uid, 'movie': id, 'added': FieldValue.serverTimestamp()});
+  }
+
+  Future<void> removeLater(int id) async {
+    final user = await _getUserOrThrow();
+    _firestore
+        .collection('laters')
+        .where('movie', isEqualTo: id)
+        .where('user', isEqualTo: user.uid)
+        .getDocuments()
+        .then((snapshot) {
+      for (var doc in snapshot.documents) doc.reference.delete();
     });
   }
 

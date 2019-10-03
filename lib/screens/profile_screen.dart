@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 import 'package:telfaza/services/db_service.dart';
 import 'package:telfaza/style.dart';
 import 'package:validators/validators.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:image_cropper/image_cropper.dart';
 
 class ProfileScreen extends StatefulWidget {
   final User user;

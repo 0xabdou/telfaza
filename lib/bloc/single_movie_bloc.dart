@@ -6,9 +6,11 @@ import 'package:telfaza/services/tmdb_api.dart';
 class SingleMovieBloc extends BaseBloc {
   // subjects
   BehaviorSubject<Movie> _movieReqController = BehaviorSubject<Movie>();
+
   Sink<Movie> get inMovie => _movieReqController.sink;
 
   BehaviorSubject<Movie> _movieResController = BehaviorSubject<Movie>();
+
   Stream<Movie> get outMovie => _movieResController.stream;
 
   // init

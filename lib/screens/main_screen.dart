@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:telfaza/bloc/saved_bloc.dart';
 import 'package:telfaza/components/movies_row.dart';
-import 'package:telfaza/screens/favorites_screen.dart';
 import 'package:telfaza/screens/profile_screen.dart';
+import 'package:telfaza/screens/saved_screen.dart';
+import 'package:telfaza/serach_movie.dart';
 import 'package:telfaza/services/auth_service.dart';
 import 'package:telfaza/services/db_service.dart';
 import 'package:telfaza/services/tmdb_api.dart';
-import 'package:telfaza/serach_movie.dart';
 import 'package:telfaza/style.dart';
 
 class MainScreen extends StatefulWidget {
@@ -20,6 +20,7 @@ class _MainScreenState extends State<MainScreen> {
   DBService _dbService;
 
   Future<User> _userFuture;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -29,6 +30,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final appBar = AppBar();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +144,9 @@ class _Drawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => FavoritesScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => SavedScreen(type: SavedType.fav),
+                      ),
                     );
                   },
                 ),
@@ -151,8 +155,13 @@ class _Drawer extends StatelessWidget {
                   icon: Icons.watch_later,
                   onTap: () {
                     Navigator.pop(context);
-                    Scaffold.of(context).hideCurrentSnackBar();
-                    _snackIt('Not implemented yet', context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SavedScreen(type: SavedType.later),
+                      ),
+                    );
                   },
                 ),
               ],

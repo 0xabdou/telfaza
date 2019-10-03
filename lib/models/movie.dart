@@ -1,4 +1,3 @@
-
 class Movie {
   MovieState state;
 
@@ -83,6 +82,7 @@ class Movie {
   }
 
   bool operator ==(o) => o is Movie && id == o.id;
+
   int get hashCode => id.hashCode;
 }
 

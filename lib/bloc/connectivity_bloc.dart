@@ -7,10 +7,12 @@ class ConnectivityBloc extends BaseBloc {
 
   final StreamController<bool> _connectivityControllerIn =
       StreamController<bool>();
+
   Sink<bool> get inConnectivity => _connectivityControllerIn.sink;
 
   final StreamController<bool> _connectivityControllerOut =
       StreamController<bool>.broadcast();
+
   Stream<bool> get outConnectivity => _connectivityControllerOut.stream;
 
   ConnectivityBloc() {

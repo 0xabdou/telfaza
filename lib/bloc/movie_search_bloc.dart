@@ -14,16 +14,22 @@ class MovieSearchBloc extends BaseBloc {
 
   // subjects
   final StreamController<String> _queryController = StreamController<String>();
+
   Sink<String> get inQuery => _queryController.sink;
+
   Stream<String> get _outQuery => _queryController.stream;
 
   final StreamController<int> _indexController = StreamController<int>();
+
   Sink<int> get inIndex => _indexController.sink;
+
   Stream<int> get _outIndex => _indexController.stream;
 
   final BehaviorSubject<List<Movie>> _moviesController =
       BehaviorSubject<List<Movie>>.seeded([]);
+
   Sink<List<Movie>> get _inMovies => _moviesController.sink;
+
   Stream<List<Movie>> get outMovies => _moviesController.stream;
 
   // init

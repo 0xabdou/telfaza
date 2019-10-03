@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:telfaza/bloc/discover_bloc.dart';
 import 'package:telfaza/components/large_movie_card.dart';
 import 'package:telfaza/models/movie.dart';
-import 'package:telfaza/services/tmdb_api.dart';
 import 'package:telfaza/screens/fliters_sheet.dart';
+import 'package:telfaza/services/tmdb_api.dart';
 import 'package:telfaza/style.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -50,6 +50,7 @@ class _MoreScreenState extends State<MoreScreen> {
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final stream = bloc.outMovies;

@@ -1,9 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:telfaza/components/bottom_sheet_button.dart';
 import 'package:telfaza/components/rating_bar.dart';
-import 'package:telfaza/style.dart';
 import 'package:telfaza/models/movie.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:telfaza/style.dart';
 
 const kBottomSheetHeightRatio = 0.75;
 

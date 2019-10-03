@@ -1,9 +1,9 @@
+import 'dart:convert' as convert;
 import 'dart:io';
+
+import 'package:http/http.dart' as http;
 import 'package:telfaza/bloc/connectivity_bloc.dart';
 import 'package:telfaza/models/movie.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-
 import 'package:telfaza/services/parameters_names.dart';
 
 class TmdbApi {
@@ -116,11 +116,11 @@ class TmdbApi {
     final json = await getMovieJsonById(id);
     return Movie.fromJSON(json);
   }
+
   Future<Movie> getMovieDetailsById(int id) async {
     final json = await getMovieJsonById(id);
     return Movie.detailsFromJson(json);
   }
-
 
   List<Movie> _moviesListFromJson(Map<String, dynamic> json) {
     List<Movie> movies = [];

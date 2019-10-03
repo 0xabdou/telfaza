@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:telfaza/components/tappable_surface.dart';
-import 'package:telfaza/components/black_gradient.dart';
-import 'package:telfaza/models/movie.dart';
-import 'package:telfaza/services/tmdb_api.dart';
-import 'package:telfaza/screens/movie_screen.dart';
-import 'package:telfaza/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:telfaza/components/black_gradient.dart';
+import 'package:telfaza/components/tappable_surface.dart';
+import 'package:telfaza/models/movie.dart';
+import 'package:telfaza/screens/movie_screen.dart';
+import 'package:telfaza/services/tmdb_api.dart';
+import 'package:telfaza/utils.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;

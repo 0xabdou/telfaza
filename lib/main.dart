@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telfaza/bloc/bloc_base.dart';
+import 'package:provider/provider.dart';
 import 'package:telfaza/bloc/movie_search_bloc.dart';
 import 'package:telfaza/bloc/movies_bloc.dart';
 import 'package:telfaza/bloc/saved_bloc.dart';
@@ -7,7 +7,6 @@ import 'package:telfaza/screens/landing_screen.dart';
 import 'package:telfaza/services/auth_service.dart';
 import 'package:telfaza/services/db_service.dart';
 import 'package:telfaza/services/firebase_auth_service.dart';
-import 'package:provider/provider.dart';
 import 'package:telfaza/services/firestore_db_service.dart';
 import 'package:telfaza/style.dart';
 

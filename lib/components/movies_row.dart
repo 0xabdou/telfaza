@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:telfaza/bloc/movies_bloc.dart';
 import 'package:telfaza/components/movie_card.dart';
 import 'package:telfaza/models/movie.dart';
-import 'package:telfaza/services/tmdb_api.dart';
 import 'package:telfaza/screens/more_screen.dart';
 import 'package:telfaza/screens/slide_route.dart';
+import 'package:telfaza/services/tmdb_api.dart';
 import 'package:telfaza/style.dart';
 import 'package:telfaza/utils.dart';
 

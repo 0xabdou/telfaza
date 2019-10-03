@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:telfaza/models/movie.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:telfaza/models/movie.dart';
 import 'package:telfaza/services/tmdb_api.dart';
 
 import 'bloc_base.dart';
@@ -19,33 +19,46 @@ class MoviesBloc extends BaseBloc {
 
   // subjects
   PublishSubject<int> _topRatedIndexController = PublishSubject<int>();
+
   Sink<int> get inTopRatedIndex => _topRatedIndexController.sink;
+
   Stream<int> get _outTopRatedIndex => _topRatedIndexController.stream;
 
   BehaviorSubject<List<Movie>> _topRatedController =
       BehaviorSubject<List<Movie>>.seeded([]);
+
   Stream<List<Movie>> get outTopRated => _topRatedController.stream;
+
   Sink<List<Movie>> get _inTopRated => _topRatedController.sink;
 
   PublishSubject<int> _popularIndexController = PublishSubject<int>();
+
   Sink<int> get inPopularIndex => _popularIndexController.sink;
+
   Stream<int> get _outPopularIndex => _popularIndexController.stream;
 
   BehaviorSubject<List<Movie>> _popularController =
       BehaviorSubject<List<Movie>>.seeded([]);
+
   Stream<List<Movie>> get outPopular => _popularController.stream;
+
   Sink<List<Movie>> get _inPopular => _popularController.sink;
 
   PublishSubject<int> _nowPlayingIndexController = PublishSubject<int>();
+
   Sink<int> get inNowPlayingIndex => _nowPlayingIndexController.sink;
+
   Stream<int> get _outNowPlayingIndex => _nowPlayingIndexController.stream;
 
   BehaviorSubject<List<Movie>> _nowPlayingController =
       BehaviorSubject<List<Movie>>.seeded([]);
+
   Stream<List<Movie>> get outNowPlaying => _nowPlayingController.stream;
+
   Sink<List<Movie>> get _inNowPlaying => _nowPlayingController.sink;
 
   StreamController<Null> _refreshController = StreamController<Null>();
+
   Sink<bool> get inRefresh => _refreshController.sink;
 
   // init

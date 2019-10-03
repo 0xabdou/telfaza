@@ -17,9 +17,14 @@ class AuthUser {
 
 abstract class AuthService {
   Future<AuthUser> currentUser();
+
   Future<AuthUser> signInWithGoogle();
+
   Future<AuthUser> signInWithFacebook();
+
   Future<void> signOut();
+
   Stream<AuthUser> get onAuthStateChanged;
+
   void dispose();
 }

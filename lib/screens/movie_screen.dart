@@ -92,6 +92,7 @@ class _MovieScreenState extends State<MovieScreen>
   }
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -138,7 +139,6 @@ class _MovieScreenState extends State<MovieScreen>
                       ),
                     ),
                   ),
-
                   Container(
                     height: size.height * (coverHeightRation - 0.1),
                     child: Padding(
@@ -174,21 +174,20 @@ class _MovieScreenState extends State<MovieScreen>
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
                       actions: [
-                        StreamBuilder<List<Movie>>(
+                        SaveButton(
+                          movie: widget.movie,
+                          activeIcon: Icons.favorite,
+                          inactiveIcon: Icons.favorite_border,
                           stream: _savedBloc.outFavorites,
-                          builder: (context, snapshot) {
-                            final faved = snapshot.hasData && snapshot.data.contains(widget.movie);
-                            return IconButton(
-                              onPressed: () {
-                                _savedBloc.inAddFavorites.add({'movie': widget.movie, 'add': faved ? 0 : 1});
-                              },
-                              icon: Icon(
-                                faved ? Icons.favorite : Icons.favorite_border,
-                                color: faved ? kSecondaryColor : Colors.white,
-                              ),
-                            );
-                          }
-                        )
+                          sink: _savedBloc.inAddFavorites,
+                        ),
+                        SaveButton(
+                          movie: widget.movie,
+                          activeIcon: Icons.watch_later,
+                          inactiveIcon: Icons.watch_later,
+                          stream: _savedBloc.outLaters,
+                          sink: _savedBloc.inAddLaters,
+                        ),
                       ],
                     ),
                     backgroundColor: Colors.transparent,
@@ -275,5 +274,40 @@ class _MovieScreenState extends State<MovieScreen>
     } else {
       _snackIt('Error');
     }
+  }
+}
+
+class SaveButton extends StatelessWidget {
+  final Movie movie;
+  final IconData inactiveIcon;
+  final IconData activeIcon;
+  final Stream<List<Movie>> stream;
+  final Sink<Map<String, dynamic>> sink;
+
+  const SaveButton({
+    this.stream,
+    this.sink,
+    this.movie,
+    this.inactiveIcon,
+    this.activeIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<Movie>>(
+      stream: stream,
+      builder: (context, snapshot) {
+        final active = snapshot.hasData && snapshot.data.contains(movie);
+        return IconButton(
+          onPressed: () {
+            sink.add({'movie': movie, 'add': active ? 0 : 1});
+          },
+          icon: Icon(
+            active ? activeIcon : inactiveIcon,
+            color: active ? kSecondaryColor : Colors.white,
+          ),
+        );
+      },
+    );
   }
 }
