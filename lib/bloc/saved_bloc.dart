@@ -8,25 +8,49 @@ import 'package:telfaza/services/tmdb_api.dart';
 class SavedBloc extends BaseBloc {
   final DBService _dbService;
 
-  List<Movie> _favorites;
+  List<Movie> _favorites = [];
 
-  SavedBloc(this._dbService);
+  BehaviorSubject<List<Movie>> _favoritesSubject = BehaviorSubject<List<Movie>>.seeded([]);
+  Stream<List<Movie>> get outFavorites => _favoritesSubject.stream;
+  Sink<List<Movie>> get _inFavorites => _favoritesSubject.sink;
 
-  BehaviorSubject<List<Movie>> _addFavorite = BehaviorSubject<List<Movie>>.seeded([]);
-  Sink<List<Movie>> get inFavorites => _addFavorite.sink;
-  Stream<List<Movie>> get outFavorites => _dbService.outFavorites.asyncMap(convert);
+  BehaviorSubject<Map<String, dynamic>> _addFavoriteSubject = BehaviorSubject<Map<String, dynamic>>();
+  Stream<Map<String, dynamic>> get _outAddFavorites => _addFavoriteSubject.stream;
+  Sink<Map<String, dynamic>> get inAddFavorites => _addFavoriteSubject.sink;
 
-  Future<List<Movie>> convert(QuerySnapshot snapshot) async {
+
+  SavedBloc(this._dbService) {
+    _dbService.outFavorites.then((stream) => stream.listen(convert));
+    _outAddFavorites.listen((event) {
+      final Movie movie = event['movie'];
+      if (event['add'] == 0) {
+        _favorites.remove(movie);
+        _dbService.removeFavorite(movie.id);
+      } else {
+        _favorites.add(movie);
+        _dbService.addFavorite(movie.id);
+      }
+      _inFavorites.add(_favorites);
+    });
+  }
+
+   void convert(QuerySnapshot snapshot) async {
     final List<Future<Movie>> futures = [];
     for (var doc in snapshot.documents)
       futures.add(api.getMovieById(doc['movie']));
-    _favorites = await Future.wait(futures);
-    return _favorites;
+    // if I directly assign the result to _favorites, I get the following error
+    // when I try to add a movie to _favorites, I have no clue what's the reason
+    //Unhandled Exception: type 'Movie' is not a subtype of type 'Null' of 'value'
+    final res = await Future.wait(futures);
+    _favorites.clear();
+    _favorites.addAll(res);
+    _inFavorites.add(_favorites);
   }
 
   @override
   void dispose() {
-    _addFavorite.close();
+    _favoritesSubject.close();
+    _addFavoriteSubject.close();
   }
 
 }

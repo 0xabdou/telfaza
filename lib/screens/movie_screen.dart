@@ -2,12 +2,15 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:telfaza/bloc/saved_bloc.dart';
 import 'package:telfaza/bloc/single_movie_bloc.dart';
 import 'package:telfaza/components/bottom_sheet_dragger.dart';
 import 'package:telfaza/components/custom_bottom_sheet.dart';
 import 'package:telfaza/components/text_overflow_scroll.dart';
 import 'package:telfaza/models/movie.dart';
 import 'package:telfaza/services/tmdb_api.dart';
+import 'package:telfaza/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MovieScreen extends StatefulWidget {
@@ -29,6 +32,7 @@ class _MovieScreenState extends State<MovieScreen>
   final double textOffset = 150.0;
   BottomSheetDragger _bottomSheetDragger;
 
+  SavedBloc _savedBloc;
   AnimationController _controller;
   Animation _textAnimation;
   Animation _colorAnimation;
@@ -76,6 +80,12 @@ class _MovieScreenState extends State<MovieScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _savedBloc = Provider.of<SavedBloc>(context);
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -98,7 +108,6 @@ class _MovieScreenState extends State<MovieScreen>
               final String genres = complete
                   ? genresList.substring(1, genresList.length - 1)
                   : '';
-
               return Stack(
                 children: [
                   CachedNetworkImage(
@@ -129,6 +138,7 @@ class _MovieScreenState extends State<MovieScreen>
                       ),
                     ),
                   ),
+
                   Container(
                     height: size.height * (coverHeightRation - 0.1),
                     child: Padding(
@@ -163,6 +173,23 @@ class _MovieScreenState extends State<MovieScreen>
                   Scaffold(
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
+                      actions: [
+                        StreamBuilder<List<Movie>>(
+                          stream: _savedBloc.outFavorites,
+                          builder: (context, snapshot) {
+                            final faved = snapshot.hasData && snapshot.data.contains(widget.movie);
+                            return IconButton(
+                              onPressed: () {
+                                _savedBloc.inAddFavorites.add({'movie': widget.movie, 'add': faved ? 0 : 1});
+                              },
+                              icon: Icon(
+                                faved ? Icons.favorite : Icons.favorite_border,
+                                color: faved ? kSecondaryColor : Colors.white,
+                              ),
+                            );
+                          }
+                        )
+                      ],
                     ),
                     backgroundColor: Colors.transparent,
                     body: Stack(

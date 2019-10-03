@@ -34,6 +34,8 @@ abstract class DBService {
   Future<User> currentUser();
   Future<void> updateProfile(Map<String, String> profile);
   Future<String> updatePhoto(File image);
-  Stream<QuerySnapshot> get outFavorites;
+  Future<void> addFavorite(int id);
+  Future<void> removeFavorite(int id);
+  Future<Stream<QuerySnapshot>> get outFavorites;
   void dispose();
 }

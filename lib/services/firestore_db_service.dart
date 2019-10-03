@@ -10,14 +10,34 @@ class FirestoreDBService extends DBService {
   final Firestore _firestore = Firestore.instance;
   final StorageReference _storage = FirebaseStorage.instance.ref();
   AuthService _auth;
-  User _user;
 
   FirestoreDBService(AuthService auth) {
     _auth = auth;
   }
 
-  Stream<QuerySnapshot> get outFavorites {
-    return _firestore.collection('favorites').where('user', isEqualTo: _user.uid).snapshots();
+  Future<Stream<QuerySnapshot>> get outFavorites async {
+    final user = await _getUserOrThrow();
+    return _firestore.collection('favorites').where('user', isEqualTo: user.uid).snapshots();
+  }
+
+  Future<void> addFavorite(int id) async {
+    final user = await _getUserOrThrow();
+    final snap = await _firestore.collection('favorites')
+        .where('movie', isEqualTo: id)
+        .where('user', isEqualTo: user.uid)
+        .getDocuments();
+    if (snap.documents.length > 0)
+      return;
+    await _firestore.collection('favorites').add({'user': user.uid, 'movie': id});
+  }
+  
+  Future<void> removeFavorite(int id) async {
+    final user = await _getUserOrThrow();
+    _firestore.collection('favorites').where('movie', isEqualTo: id).where('user', isEqualTo: user.uid)
+    .getDocuments().then((snapshot) {
+      for (var doc in snapshot.documents)
+        doc.reference.delete();
+    });
   }
 
   Future<User> _newUser(AuthUser authUser) async {
@@ -50,8 +70,7 @@ class FirestoreDBService extends DBService {
       return _newUser(authUser);
     }
     data['uid'] = documentSnapshot.documentID;
-    _user = User.fromJSON(documentSnapshot.data);
-    return _user;
+    return User.fromJSON(documentSnapshot.data);
   }
 
   Future<User> _getUserOrThrow() async {

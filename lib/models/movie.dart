@@ -1,3 +1,4 @@
+
 class Movie {
   MovieState state;
 
@@ -80,6 +81,9 @@ class Movie {
         return 'Something\'s wrong with the type';
     }
   }
+
+  bool operator ==(o) => o is Movie && id == o.id;
+  int get hashCode => id.hashCode;
 }
 
 enum MovieState {
