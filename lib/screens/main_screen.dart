@@ -184,12 +184,6 @@ class _Drawer extends StatelessWidget {
     );
   }
 
-  void _snackIt(String msg, BuildContext context) {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: Text(msg),
-    ));
-  }
-
   void _launchProfile(BuildContext context) async {
     Navigator.pop(context);
     final User user = await future;
