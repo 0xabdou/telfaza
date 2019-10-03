@@ -95,7 +95,7 @@ class TmdbApi {
     return _moviesListFromJson(resJson);
   }
 
-  Future<Movie> getMovieById(int id) async {
+  Future<Map<String, dynamic>> getMovieJsonById(int id) async {
     await _requestImagesBaseUrl();
 
     final Uri uri = Uri.https(
@@ -107,11 +107,20 @@ class TmdbApi {
         kParamAppToRes: 'videos',
       },
     );
-
-    var resJson = await _get(uri);
+    final resJson = _get(uri);
     if (resJson == null) throw _exception;
-    return Movie.detailsFromJson(resJson);
+    return resJson;
   }
+
+  Future<Movie> getMovieById(int id) async {
+    final json = await getMovieJsonById(id);
+    return Movie.fromJSON(json);
+  }
+  Future<Movie> getMovieDetailsById(int id) async {
+    final json = await getMovieJsonById(id);
+    return Movie.detailsFromJson(json);
+  }
+
 
   List<Movie> _moviesListFromJson(Map<String, dynamic> json) {
     List<Movie> movies = [];

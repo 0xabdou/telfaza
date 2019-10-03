@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:telfaza/bloc/bloc_base.dart';
 import 'package:telfaza/bloc/movie_search_bloc.dart';
 import 'package:telfaza/bloc/movies_bloc.dart';
+import 'package:telfaza/bloc/saved_bloc.dart';
 import 'package:telfaza/screens/landing_screen.dart';
 import 'package:telfaza/services/auth_service.dart';
 import 'package:telfaza/services/db_service.dart';
@@ -18,6 +20,7 @@ class Telfaza extends StatefulWidget {
 
 class _TelfazaState extends State<Telfaza> {
   AuthService _authService;
+  DBService _dbService;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,10 @@ class _TelfazaState extends State<Telfaza> {
           dispose: (_, value) => value.dispose(),
         ),
         Provider<DBService>(
-          builder: (_) => FirestoreDBService(_authService),
+          builder: (_) {
+            _dbService = FirestoreDBService(_authService);
+            return _dbService;
+          },
           dispose: (_, value) => value.dispose(),
         ),
         Provider<MoviesBloc>(
@@ -42,6 +48,10 @@ class _TelfazaState extends State<Telfaza> {
           builder: (_) => MovieSearchBloc(),
           dispose: (_, value) => value.dispose(),
         ),
+        Provider<SavedBloc>(
+          builder: (_) => SavedBloc(_dbService),
+          dispose: (_, value) => value.dispose(),
+        )
       ],
       child: MaterialApp(
         title: 'Tlfaza',

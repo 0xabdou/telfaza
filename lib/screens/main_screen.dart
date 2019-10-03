@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:telfaza/components/movies_row.dart';
+import 'package:telfaza/screens/favorites_screen.dart';
 import 'package:telfaza/screens/profile_screen.dart';
 import 'package:telfaza/services/auth_service.dart';
 import 'package:telfaza/services/db_service.dart';
@@ -138,8 +139,10 @@ class _Drawer extends StatelessWidget {
                   icon: Icons.favorite_border,
                   onTap: () {
                     Navigator.pop(context);
-                    Scaffold.of(context).hideCurrentSnackBar();
-                    _snackIt('Not implemented yet', context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FavoritesScreen()),
+                    );
                   },
                 ),
                 _DrawerItem(

@@ -10,9 +10,14 @@ class FirestoreDBService extends DBService {
   final Firestore _firestore = Firestore.instance;
   final StorageReference _storage = FirebaseStorage.instance.ref();
   AuthService _auth;
+  User _user;
 
   FirestoreDBService(AuthService auth) {
     _auth = auth;
+  }
+
+  Stream<QuerySnapshot> get outFavorites {
+    return _firestore.collection('favorites').where('user', isEqualTo: _user.uid).snapshots();
   }
 
   Future<User> _newUser(AuthUser authUser) async {
@@ -45,7 +50,8 @@ class FirestoreDBService extends DBService {
       return _newUser(authUser);
     }
     data['uid'] = documentSnapshot.documentID;
-    return User.fromJSON(documentSnapshot.data);
+    _user = User.fromJSON(documentSnapshot.data);
+    return _user;
   }
 
   Future<User> _getUserOrThrow() async {
@@ -74,20 +80,6 @@ class FirestoreDBService extends DBService {
   Future<void> updateProfile(Map<String, String> profile) async {
     final user = await _getUserOrThrow();
     final uid = user.uid;
-
-    if (uid == null) {
-      throw PlatformException(
-        code: 'ERROR_MISSING_UID',
-        message: 'Can\t retrieve current user\'s uid',
-      );
-    }
-
-    if (profile == null || profile.isEmpty) {
-      throw PlatformException(
-        code: 'ERROR_EMPTY_PROFILE',
-        message: 'the supplied profile is null or empty',
-      );
-    }
 
     String username;
     if (profile.containsKey('username'))

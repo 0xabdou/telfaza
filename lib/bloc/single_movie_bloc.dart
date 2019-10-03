@@ -20,7 +20,7 @@ class SingleMovieBloc extends BaseBloc {
 
   // handling
   void _handleMovie(Movie movie) async {
-    api.getMovieById(movie.id).then((details) {
+    api.getMovieDetailsById(movie.id).then((details) {
       movie.addDetails(details);
       _movieResController.add(movie);
     }).catchError((error) => print('Can\t handle a single movie'));

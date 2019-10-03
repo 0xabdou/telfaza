@@ -46,6 +46,13 @@ class Movie {
     state = MovieState.details;
   }
 
+  factory Movie.fromJSON(Map<String, dynamic> json) {
+    final movie = Movie.essentialFromJson(json);
+    final details = Movie.detailsFromJson(json);
+    movie.addDetails(details);
+    return movie;
+  }
+
   void addDetails(Movie details) {
     if (this.state != MovieState.essential ||
         details.state != MovieState.details) throw 'Incompatible states';

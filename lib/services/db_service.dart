@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -33,6 +34,6 @@ abstract class DBService {
   Future<User> currentUser();
   Future<void> updateProfile(Map<String, String> profile);
   Future<String> updatePhoto(File image);
-
+  Stream<QuerySnapshot> get outFavorites;
   void dispose();
 }
