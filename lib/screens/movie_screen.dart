@@ -180,6 +180,8 @@ class _MovieScreenState extends State<MovieScreen>
                           inactiveIcon: Icons.favorite_border,
                           stream: _savedBloc.outFavorites,
                           sink: _savedBloc.inAddFavorites,
+                          label: 'favorites',
+                          scaffoldKey: _scaffoldKey,
                         ),
                         SaveButton(
                           movie: widget.movie,
@@ -187,6 +189,8 @@ class _MovieScreenState extends State<MovieScreen>
                           inactiveIcon: Icons.watch_later,
                           stream: _savedBloc.outLaters,
                           sink: _savedBloc.inAddLaters,
+                          label: 'watch later',
+                          scaffoldKey: _scaffoldKey,
                         ),
                       ],
                     ),
@@ -281,6 +285,9 @@ class SaveButton extends StatelessWidget {
   final Movie movie;
   final IconData inactiveIcon;
   final IconData activeIcon;
+  final String label;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final Function extraWork;
   final Stream<List<Movie>> stream;
   final Sink<Map<String, dynamic>> sink;
 
@@ -290,6 +297,9 @@ class SaveButton extends StatelessWidget {
     this.movie,
     this.inactiveIcon,
     this.activeIcon,
+    this.label,
+    this.extraWork,
+    this.scaffoldKey,
   });
 
   @override
@@ -300,8 +310,15 @@ class SaveButton extends StatelessWidget {
         final active = snapshot.hasData && snapshot.data.contains(movie);
         return IconButton(
           onPressed: () {
+            scaffoldKey.currentState.hideCurrentSnackBar();
+            scaffoldKey.currentState.showSnackBar(SnackBar(
+              content: active
+                  ? Text('Removed from $label')
+                  : Text('Added to $label'),
+            ));
             sink.add({'movie': movie, 'add': active ? 0 : 1});
           },
+          tooltip: active ? 'Remove from $label' : 'Add to $label',
           icon: Icon(
             active ? activeIcon : inactiveIcon,
             color: active ? kSecondaryColor : Colors.white,
