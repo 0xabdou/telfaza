@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:telfaza/bloc/saved_bloc.dart';
 import 'package:telfaza/components/movies_row.dart';
 import 'package:telfaza/screens/favorites_screen.dart';
 import 'package:telfaza/screens/profile_screen.dart';
@@ -163,6 +164,7 @@ class _Drawer extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pop();
                 Provider.of<AuthService>(context).signOut();
+                Provider.of<SavedBloc>(context).inRestart.add(true);
               },
               label: 'Log out',
               icon: Icons.clear,

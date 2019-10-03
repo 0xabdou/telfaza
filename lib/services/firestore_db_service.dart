@@ -17,7 +17,7 @@ class FirestoreDBService extends DBService {
 
   Future<Stream<QuerySnapshot>> get outFavorites async {
     final user = await _getUserOrThrow();
-    return _firestore.collection('favorites').where('user', isEqualTo: user.uid).snapshots();
+    return _firestore.collection('favorites').orderBy('added',descending: true).where('user', isEqualTo: user.uid).snapshots();
   }
 
   Future<void> addFavorite(int id) async {
@@ -28,7 +28,7 @@ class FirestoreDBService extends DBService {
         .getDocuments();
     if (snap.documents.length > 0)
       return;
-    await _firestore.collection('favorites').add({'user': user.uid, 'movie': id});
+    await _firestore.collection('favorites').add({'user': user.uid, 'movie': id, 'added': FieldValue.serverTimestamp()});
   }
   
   Future<void> removeFavorite(int id) async {

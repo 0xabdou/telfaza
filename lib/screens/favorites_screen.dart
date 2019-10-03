@@ -17,6 +17,8 @@ class FavoritesScreen extends StatelessWidget {
           if (snapshot.hasData)
             return GridView.count(
               crossAxisCount: 3,
+              mainAxisSpacing: 3,
+              childAspectRatio: 0.6,
               children: [for(var movie in snapshot.data) MovieCard(movie: movie,)],
             );
           else
