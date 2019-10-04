@@ -294,7 +294,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     if (profile.isEmpty) {
-      print('empty profile');
       Navigator.of(context).pop();
     } else {
       try {
@@ -306,6 +305,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _snackIt('username exists already');
           }
         } else {
+          print(e);
           _snackIt('Something went wrong');
         }
       }

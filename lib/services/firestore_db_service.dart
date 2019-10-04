@@ -142,18 +142,17 @@ class FirestoreDBService extends DBService {
     final uid = user.uid;
 
     String username;
-    if (profile.containsKey('username'))
+    if (profile.containsKey('username')) {
       username = profile['username'].toLowerCase();
+      profile['username'] = username;
+    }
 
-    if (await usernameExists(username)) {
+    if (username != null && await usernameExists(username)) {
       throw PlatformException(
         code: 'ERROR_USERNAME_EXISTS',
         message: 'username already exists',
       );
     }
-    // username inside profile may still be upper case
-    // so we do this
-    profile['username'] = username;
 
     final allowedFields = ['username', 'name'];
     for (var key in profile.keys) {
