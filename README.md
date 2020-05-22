@@ -7,3 +7,7 @@ https://youtu.be/XjatPASva2E
 
 # My portfolio
 http://zettai-dev.github.io
+
+
+## Note
+I worked on this project while I was still new to flutter, the architecture/code base is not as clean as it could be.
